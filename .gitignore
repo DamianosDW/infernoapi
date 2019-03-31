@@ -1,0 +1,27 @@
+HELP.md
+target/
+package/
+*.log
+application.properties
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.orig
+
+### Maven ###
+mvnw
+mvnw.cmd
+.mvn/
+pom.xml
