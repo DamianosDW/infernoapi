@@ -7,7 +7,8 @@ API for "Inferno CP" app and "DWBot".
 2. Download source code.
 3. Move all files to project directory.
 4. Add necessary dependencies to pom.xml file.
-5. Build and run :)
+5. Modify application.properties (add database url, login and password).
+6. Build and run :)
 
 # Dependencies (maven)
 ```
