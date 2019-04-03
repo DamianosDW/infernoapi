@@ -3,15 +3,11 @@
  * https://damianosdw.ovh
  */
 
-package ovh.damianosdw.infernoapi.dbmodels;
+package ovh.damianosdw.infernoapi.endpoints.vipactivity;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ovh.damianosdw.infernoapi.endpoints.vipactivity.VipActivityCheckRepository;
-import ovh.damianosdw.infernoapi.endpoints.vipactivity.VipActivityModuleRepository;
+import org.springframework.web.bind.annotation.*;
+import ovh.damianosdw.infernoapi.dbmodels.VipActivityCheck;
 import ovh.damianosdw.infernoapi.utils.ChannelsActivityUtils;
 
 import java.time.LocalDateTime;
