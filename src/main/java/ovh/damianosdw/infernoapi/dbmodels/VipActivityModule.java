@@ -1,4 +1,9 @@
-package ovh.damianosdw.infernoapi.endpoints.vipactivity;
+/*
+ * Created by DamianosDW
+ * https://damianosdw.ovh
+ */
+
+package ovh.damianosdw.infernoapi.dbmodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
