@@ -1,4 +1,9 @@
-package ovh.damianosdw.infernoapi.endpoints.vipactivity;
+/*
+ * Created by DamianosDW
+ * https://damianosdw.ovh
+ */
+
+package ovh.damianosdw.infernoapi.dbmodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +23,6 @@ public class VipActivityCheck
     @GeneratedValue
     @Column(name = "CHECK_ID", nullable = false, unique = true)
     private int checkId;
-    @ManyToOne
     private int userId;
     @Basic
     @Column(nullable = false)
