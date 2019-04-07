@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/infernoapi")
@@ -24,10 +24,10 @@ public class UsersActivityController
         return userActivityRepository.findAll();
     }
 
-    @GetMapping("/usersactivity/{userid}")
-    public Optional<UserActivity> getUserActivityByUserId(@PathVariable("userid") int id)
+    @GetMapping("/usersactivity/{userId}")
+    public List<UserActivity> getUserActivityByUserId(@PathVariable("userId") int id)
     {
-        return userActivityRepository.findAll().stream().filter(userId -> userId.getUserId() == id).findAny();
+        return userActivityRepository.findAll().stream().filter(userId -> userId.getUserId() == id).collect(Collectors.toList());
     }
 
     @PutMapping("/usersactivity")
