@@ -3,6 +3,11 @@
  * https://damianosdw.ovh
  */
 
+/*
+ * Created by DamianosDW
+ * https://damianosdw.ovh
+ */
+
 package ovh.damianosdw.infernoapi.dbmodels;
 
 import lombok.AllArgsConstructor;

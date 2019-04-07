@@ -1,3 +1,8 @@
+/*
+ * Created by DamianosDW
+ * https://damianosdw.ovh
+ */
+
 package ovh.damianosdw.infernoapi;
 
 import org.springframework.context.annotation.Bean;
