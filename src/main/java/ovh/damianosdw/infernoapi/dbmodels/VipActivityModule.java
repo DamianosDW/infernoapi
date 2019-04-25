@@ -24,4 +24,12 @@ public class VipActivityModule
     private int optionsId;
     private int numberOfChannels;
     private int channelsInUse;
+
+    public VipActivityModule(int optionValue, boolean updateNumberOfChannels)
+    {
+        if(updateNumberOfChannels)
+            this.numberOfChannels = optionValue;
+        else
+            this.channelsInUse = optionValue;
+    }
 }
