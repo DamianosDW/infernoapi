@@ -6,9 +6,9 @@
 package ovh.damianosdw.infernoapi.endpoints.vipactivity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ovh.damianosdw.infernoapi.dbmodels.VipActivityModule;
+import ovh.damianosdw.infernoapi.dbmodels.CandidatesVipActivityCheck;
 
-public interface VipActivityModuleRepository extends JpaRepository<VipActivityModule, Integer>, VipActivityModuleCustom
+public interface CandidatesVipActivityCheckRepository extends JpaRepository<CandidatesVipActivityCheck, Integer>
 {
 
 }
