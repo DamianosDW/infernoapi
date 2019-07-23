@@ -8,7 +8,6 @@ package ovh.damianosdw.infernoapi.dbmodels;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ovh.damianosdw.infernoapi.endpoints.users.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,8 +23,7 @@ public class ActivityOnDuty
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACTIVITY_ID", nullable = false)
     private int activityId;
-    @OneToMany
-    private User userId;
+    private int userId;
     @Basic
     @Column(name = "activity_date", nullable = false)
     private LocalDateTime activityDate;
