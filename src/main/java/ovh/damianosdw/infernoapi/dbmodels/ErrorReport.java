@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "error_reports")
-public class ErrorReports
+public class ErrorReport
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
