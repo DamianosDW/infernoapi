@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class ActivityOnDuty
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ACTIVITY_ID", nullable = false)
     private int activityId;
     @OneToMany
