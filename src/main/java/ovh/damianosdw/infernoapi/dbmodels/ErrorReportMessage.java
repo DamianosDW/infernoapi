@@ -32,6 +32,6 @@ public class ErrorReportMessage
     @Column(name = "message_sent_date", nullable = false)
     private LocalDateTime messageSentDate;
     @Column(name = "message", nullable = false)
-    @Type(type="text")
+    @Type(type = "text")
     private String message;
 }
