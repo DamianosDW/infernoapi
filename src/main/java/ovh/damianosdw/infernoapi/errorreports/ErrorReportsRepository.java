@@ -10,7 +10,7 @@ import ovh.damianosdw.infernoapi.dbmodels.ErrorReport;
 
 import java.util.List;
 
-public interface ErrorReportsRepository extends JpaRepository<ErrorReport, Integer>
+public interface ErrorReportsRepository extends JpaRepository<ErrorReport, Integer>, ErrorReportsCustom
 {
     List<ErrorReport> getErrorReportsByProblemSolved(boolean problemSolved);
     List<ErrorReport> getErrorReportsByUserId(int userId);
