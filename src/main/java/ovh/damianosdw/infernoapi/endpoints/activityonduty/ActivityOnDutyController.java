@@ -96,7 +96,7 @@ public class ActivityOnDutyController
     }
 
     @PutMapping("/candidateActivity/send")
-    public void sendCandidateActivityOnDuty(@RequestBody ActivityOnDuty activityOnDuty) throws SqlQueryErrorException
+    public void sendCandidateActivityOnDuty(@RequestBody CandidatesActivity activityOnDuty) throws SqlQueryErrorException
     {
         sendActivityOnDutyToDatabase(activityOnDuty);
     }
