@@ -16,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "inferno_tv")
-public class InfernoTVFilm
+public class InfernoTVMovie
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
