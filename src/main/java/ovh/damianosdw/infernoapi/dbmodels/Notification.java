@@ -8,6 +8,7 @@ package ovh.damianosdw.infernoapi.dbmodels;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class Notification
     @Column(name = "send_to_person", nullable = false)
     private int sendToPerson;
     @Column(name = "notification_content", nullable = false)
-//    @Type(type = "text")
+    @Type(type = "text")
     private String notificationContent;
     @Column(name = "active", nullable = false)
     private boolean active;
