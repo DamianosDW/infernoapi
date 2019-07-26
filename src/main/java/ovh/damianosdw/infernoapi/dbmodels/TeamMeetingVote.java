@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class TeamMeetingVote
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TMV_ID")
     private int teamMeetingVoteId;
     @Column(name = "TMM_ID", nullable = false)

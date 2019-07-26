@@ -8,7 +8,7 @@ package ovh.damianosdw.infernoapi.endpoints.teammeetingreports;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ovh.damianosdw.infernoapi.dbmodels.TeamMeetingVote;
 
-public interface TeamMeetingsVotesRepository extends JpaRepository<TeamMeetingVote, Integer>
+public interface TeamMeetingsVotesRepository extends JpaRepository<TeamMeetingVote, Integer>, TeamMeetingsVotesCustom
 {
 
 }
