@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class TeamMeetingReport
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "REPORT_ID")
     private int reportId;
     @Column(name = "USER_ID", nullable = false)

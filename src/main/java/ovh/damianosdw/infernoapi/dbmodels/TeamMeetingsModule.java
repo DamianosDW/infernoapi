@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class TeamMeetingsModule
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TMM_ID")
     private int teamMeetingsModuleId;
     @Basic
