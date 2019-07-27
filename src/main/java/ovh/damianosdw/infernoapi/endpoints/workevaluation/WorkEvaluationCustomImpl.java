@@ -11,8 +11,6 @@ import ovh.damianosdw.infernoapi.dbmodels.WorkEvaluation;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 @Transactional
@@ -20,24 +18,14 @@ public class WorkEvaluationCustomImpl implements WorkEvaluationCustom
 {
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
-    public List<WorkEvaluation> getUserWorkEvaluationsAndOrderThemBySentDateDesc(int userId)
+    public void updateWorkEvaluation(WorkEvaluation workEvaluation)
     {
-        List resultList = entityManager.createNativeQuery("SELECT * FROM work_evaluation INNER JOIN infernocp.users ON infernocp.users.USER_ID = work_evaluation.USER_ID WHERE work_evaluation.USER_ID = ? ORDER BY sent_date DESC")
-                .setParameter(1, userId)
-                .getResultList();
-
-        List<WorkEvaluation> workEvaluations = new ArrayList<>();
-
-        for(Object result : resultList)
-        {
-            if(result instanceof WorkEvaluation)
-            {
-                WorkEvaluation workEvaluation = (WorkEvaluation) result;
-                workEvaluations.add(workEvaluation);
-            }
-        }
-
-        return workEvaluations;
+        entityManager.createNativeQuery("UPDATE work_evaluation SET evaluation = ?, reason = ? WHERE WORK_EVALUATION_ID = ?")
+                .setParameter(1, workEvaluation.getEvaluation())
+                .setParameter(2, workEvaluation.getReason())
+                .setParameter(3, workEvaluation.getWorkEvaluationId())
+                .executeUpdate();
     }
 }
