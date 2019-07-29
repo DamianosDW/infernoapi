@@ -40,7 +40,6 @@ public class UsersCustomImpl implements UsersCustom
         String username = (String) data[1];
         String position = (String) data[2];
         String avatarUrl = prepareUserAvatarUrl((String) data[3]);
-        String token = (String) data[4];
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
