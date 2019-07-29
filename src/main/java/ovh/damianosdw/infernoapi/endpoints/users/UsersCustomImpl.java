@@ -23,7 +23,7 @@ public class UsersCustomImpl implements UsersCustom
     @Override
     public UserInfo getUserInfoByUsername(String username)
     {
-        List resultList = entityManager.createNativeQuery("SELECT users.USER_ID, user, position_name, avatar_url, login_token FROM " +
+        List resultList = entityManager.createNativeQuery("SELECT users.USER_ID, user, position_name, avatar_url FROM " +
                 "users INNER JOIN positions ON users.POSITION_ID = positions.POSITION_ID WHERE user = ?")
                 .setParameter(1, username)
                 .getResultList();
