@@ -15,6 +15,7 @@ import ovh.damianosdw.infernoapi.utils.ApiUtils;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/infernoapi/users")
@@ -48,6 +49,43 @@ public class UsersController
         String avatarUrl = user.getAvatarURL();
 
         return new UserAvatar(userId, username, avatarUrl);
+    }
+
+    @GetMapping("mainUserData")
+    public List<MainUserData> getAllUsersMainData() throws ResourceNotFoundException
+    {
+        List<User> users = usersRepository.findAll();
+
+        if(users.isEmpty())
+            throw new ResourceNotFoundException("Users don't exist in database!");
+        else
+        {
+            List<MainUserData> mainUserData = new ArrayList<>();
+
+            for(User user : users)
+                mainUserData.add(prepareUsername(user));
+
+            return mainUserData;
+        }
+    }
+
+    private MainUserData prepareUsername(User user)
+    {
+        int userId = user.getUserId();
+        String username = user.getUsername();
+        int positionId = user.getPositionId();
+
+        return new MainUserData(userId, username, positionId);
+    }
+
+    @GetMapping("mainUserData/{positionIds}")
+    public List<MainUserData> getUsersMainDataByPositionIds(@PathVariable("positionIds") List<Integer> positionIds) throws ResourceNotFoundException
+    {
+        List<MainUserData> allUsersMainData = getAllUsersMainData();
+
+        return allUsersMainData.stream()
+                .filter(mainUserData -> positionIds.contains(mainUserData))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("{username}/info")
