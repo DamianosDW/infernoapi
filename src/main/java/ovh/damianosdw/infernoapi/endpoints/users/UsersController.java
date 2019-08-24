@@ -24,6 +24,35 @@ public class UsersController
 {
     private final UsersRepository usersRepository;
 
+    @GetMapping("ids")
+    public List<Integer> getAllUserIds() throws ResourceNotFoundException
+    {
+        List<MainUserData> allUsersMainData = getAllUsersMainData();
+
+        if(allUsersMainData.isEmpty())
+            throw new ResourceNotFoundException("Users don't exist in database!");
+        else
+        {
+            List<Integer> userIds = new ArrayList<>();
+
+            for(MainUserData mainUserData : allUsersMainData)
+                userIds.add(mainUserData.getUserId());
+
+            return userIds;
+        }
+    }
+
+    @GetMapping("{username}/id")
+    public int getUserIdByUsername(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    {
+        UserInfo userInfo = getUserInfoByUsername(username);
+
+        if(userInfo == null)
+            throw new ResourceNotFoundException("User doesn't exist in database!");
+        else
+            return userInfo.getUserId();
+    }
+
     @GetMapping("avatars")
     public List<UserAvatar> getAllUserAvatars() throws ResourceNotFoundException
     {
