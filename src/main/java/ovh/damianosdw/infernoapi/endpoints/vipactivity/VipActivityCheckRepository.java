@@ -10,5 +10,5 @@ import ovh.damianosdw.infernoapi.dbmodels.VipActivityCheck;
 
 public interface VipActivityCheckRepository extends JpaRepository<VipActivityCheck, Integer>
 {
-
+    int countVipActivityChecksByUserId(int userId);
 }

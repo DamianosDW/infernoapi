@@ -28,31 +28,37 @@ public class VipActivityController
     private final CandidatesVipActivityCheckRepository candidatesVipActivityCheckRepository;
 
     // vip_activity_module
-    @GetMapping("/numberofchannels")
+    @GetMapping("/numberOfChannels")
     public int getNumberOfChannels()
     {
         return vipActivityModuleRepository.findAll().get(0).getNumberOfChannels();
     }
 
-    @GetMapping("/channelsinuse")
+    @GetMapping("/channelsInUse")
     public int getChannelsInUse()
     {
         return vipActivityModuleRepository.findAll().get(0).getChannelsInUse();
     }
 
-    @PutMapping("/channelsinuse/update/{channelsInUse}")
+    @PutMapping("/channelsInUse/{channelsInUse}/update")
     public void updateChannelsInUse(@PathVariable("channelsInUse") int channelsInUse)
     {
         vipActivityModuleRepository.updateChannelsInUse(channelsInUse);
     }
-    @PutMapping("/numberofchannels/update/{numberOfChannels}")
+    @PutMapping("/numberOfChannels/{numberOfChannels}/update")
     public void updateNumberOfChannels(@PathVariable("numberOfChannels") int numberOfChannels)
     {
         vipActivityModuleRepository.updateNumberOfChannels(numberOfChannels);
     }
 
+    @GetMapping("{userId}/numberOfActivityRecords")
+    public int getUserNumberOfActivityRecords(@PathVariable("userId") int userId)
+    {
+        return vipActivityCheckRepository.countVipActivityChecksByUserId(userId);
+    }
+
     // vip_activity_check (admins)
-    @GetMapping("/monthly/{channelNumber}/{month}/vipactivity")
+    @GetMapping("monthly/{channelNumber}/{month}")
     public Map<String, Integer> getMonthlyVipActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
     {
         HashMap<String, Integer> allVipActivity = new HashMap<>();
@@ -81,7 +87,7 @@ public class VipActivityController
         return allVipActivity;
     }
 
-    @GetMapping("/weekly/vipactivity")
+    @GetMapping("weekly")
     public Map<Integer, Integer> getAllWeeklyVipActivity()
     {
         int channelsInUse = vipActivityModuleRepository.findAll().get(0).getChannelsInUse();
@@ -112,7 +118,7 @@ public class VipActivityController
         return allVipActivity;
     }
 
-    @GetMapping("/weekly/{channelNumber}/vipactivity")
+    @GetMapping("weekly/{channelNumber}")
     public int getWeeklyVipActivity(@PathVariable("channelNumber") int channelNumber)
     {
         int channelVipActivity = 0;
@@ -135,14 +141,14 @@ public class VipActivityController
         return channelVipActivity;
     }
 
-    @PutMapping("/send")
+    @PutMapping("send")
     public void sendVipActivity(@RequestBody VipActivityCheck vipActivityCheck)
     {
         vipActivityCheckRepository.save(vipActivityCheck);
     }
 
     // candidates_vip_activity_check
-    @GetMapping("/monthly/{channelNumber}/{month}/candidates/vipactivity")
+    @GetMapping("monthly/candidates/{channelNumber}/{month}")
     public Map<String, Integer> getMonthlyCandidatesVipActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
     {
         HashMap<String, Integer> allVipActivity = new HashMap<>();
@@ -171,7 +177,7 @@ public class VipActivityController
         return allVipActivity;
     }
 
-    @GetMapping("/weekly/candidates/vipactivity")
+    @GetMapping("weekly/candidates")
     public Map<Integer, Integer> getAllWeeklyCandidatesVipActivity()
     {
         int channelsInUse = vipActivityModuleRepository.findAll().get(0).getChannelsInUse();
@@ -202,7 +208,7 @@ public class VipActivityController
         return allVipActivity;
     }
 
-    @GetMapping("/weekly/{channelNumber}/candidates/vipactivity")
+    @GetMapping("weekly/candidates/{channelNumber}/")
     public int getWeeklyCandidatesVipActivity(@PathVariable("channelNumber") int channelNumber)
     {
         int channelVipActivity = 0;
@@ -225,7 +231,7 @@ public class VipActivityController
         return channelVipActivity;
     }
 
-    @PutMapping("/candidates/send")
+    @PutMapping("candidates/send")
     public void sendCandidatesVipActivity(@RequestBody CandidatesVipActivityCheck candidatesVipActivityCheck)
     {
         candidatesVipActivityCheckRepository.save(candidatesVipActivityCheck);
