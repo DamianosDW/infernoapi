@@ -26,4 +26,12 @@ public class VipChannelsAdditionalInfoCustomImpl implements VipChannelsAdditiona
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }
+
+    @Override
+    public void setChannelAsActive(int channelNumber)
+    {
+        entityManager.createNativeQuery("UPDATE vip_channels_additional_info SET inactive = 0, channel_inactivity_date = NULL WHERE channel_number = ?")
+                .setParameter(1, channelNumber)
+                .executeUpdate();
+    }
 }
