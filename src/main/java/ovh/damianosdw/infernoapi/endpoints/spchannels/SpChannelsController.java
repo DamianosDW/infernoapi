@@ -14,30 +14,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/infernoapi/spchannels")
+@RequestMapping("/infernoapi/spchannels/")
 @AllArgsConstructor
 public class SpChannelsController
 {
     private final SpChannelsAdditionalInfoRepository spChannelsAdditionalInfoRepository;
     private final SpFreeChannelsRepository spFreeChannelsRepository;
 
-    // sp_channels_additional_info
-    @GetMapping("/inactive")
+    @GetMapping("inactive")
     public List<VipChannelsAdditionalInfo> getAllInactiveChannels()
     {
         return spChannelsAdditionalInfoRepository.findAll().stream().filter(spChannelsAdditionalInfo -> spChannelsAdditionalInfo.isInactive()).collect(Collectors.toList());
     }
 
-    @PutMapping("/set/inactive/{channelNumber}")
-    public void setSpChannelAsInactive(@PathVariable("channelNumber") int channelNumber)
+    @GetMapping("free")
+    public List<SpFreeChannels> getAllFreeSpChannels()
+    {
+        return spFreeChannelsRepository.findAll().stream().filter(spFreeChannels -> spFreeChannels.isFree()).collect(Collectors.toList());
+    }
+
+    @PostMapping("setAsInactive")
+    public void setSpChannelAsInactive(int channelNumber)
     {
         spChannelsAdditionalInfoRepository.setChannelAsInactive(channelNumber);
     }
 
-    // sp_free_channels
-    @GetMapping("/free")
-    public List<SpFreeChannels> getAllFreeSpChannels()
+    @PostMapping("setAsActive")
+    public void setSpChannelAsActive(int channelNumber)
     {
-        return spFreeChannelsRepository.findAll().stream().filter(spFreeChannels -> spFreeChannels.isFree()).collect(Collectors.toList());
+        spChannelsAdditionalInfoRepository.setChannelAsActive(channelNumber);
     }
 }

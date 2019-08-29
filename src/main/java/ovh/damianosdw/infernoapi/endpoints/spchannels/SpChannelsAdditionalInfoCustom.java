@@ -8,4 +8,5 @@ package ovh.damianosdw.infernoapi.endpoints.spchannels;
 public interface SpChannelsAdditionalInfoCustom
 {
     void setChannelAsInactive(int channelNumber);
+    void setChannelAsActive(int channelNumber);
 }
