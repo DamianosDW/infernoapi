@@ -61,8 +61,13 @@ public class UsersCustomImpl implements UsersCustom
     @Override
     public boolean getUserAccountStatus(String username)
     {
-        return entityManager.createQuery("SELECT active FROM User WHERE username = ?1", Boolean.class)
+        List result = entityManager.createQuery("SELECT active FROM User WHERE username = ?1", Boolean.class)
                 .setParameter(1, username)
-                .getSingleResult();
+                .getResultList();
+
+        if(result.isEmpty())
+            return false;
+        else
+            return (Boolean) result.get(0);
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/infernoapi/users")
+@RequestMapping("/infernoapi/users/")
 @AllArgsConstructor
 public class UsersController
 {
@@ -133,15 +133,13 @@ public class UsersController
             throw new ResourceNotFoundException("This user doesn't exist in database!");
     }
 
-    @GetMapping("{username}/active")
+    @GetMapping("active/{username}")
     public boolean checkIfUserAccountIsActive(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
     {
         try {
             return usersRepository.getUserAccountStatus(username);
         } catch(NoResultException e) {
             throw new ResourceNotFoundException("This user doesn't exist in database!");
-        } catch(Exception e) {
-            throw new SqlQueryErrorException("There was a problem with getting account status!");
         }
     }
 
