@@ -7,7 +7,9 @@ package ovh.damianosdw.infernoapi.endpoints.workevaluation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ovh.damianosdw.infernoapi.dbmodels.ImportantInfo;
 import ovh.damianosdw.infernoapi.dbmodels.WorkEvaluation;
+import ovh.damianosdw.infernoapi.endpoints.workevaluation.rules.ImportantInfoRepository;
 import ovh.damianosdw.infernoapi.exceptions.InvalidParameterValueException;
 import ovh.damianosdw.infernoapi.exceptions.ResourceNotFoundException;
 import ovh.damianosdw.infernoapi.exceptions.SqlQueryErrorException;
@@ -21,6 +23,7 @@ import java.util.List;
 public class WorkEvaluationController
 {
     private final WorkEvaluationRepository workEvaluationRepository;
+    private final ImportantInfoRepository importantInfoRepository;
 
     @GetMapping("{userId}")
     public List<WorkEvaluation> getWorkEvaluationsByUserId(@PathVariable("userId") int userId) throws ResourceNotFoundException
@@ -37,6 +40,23 @@ public class WorkEvaluationController
     public int getNumberOfUserWorkEvaluations(@PathVariable("userId") int userId)
     {
         return workEvaluationRepository.countWorkEvaluationsByUserId(userId);
+    }
+
+    @GetMapping("rules")
+    public ImportantInfo getWorkEvaluationRules() throws ResourceNotFoundException
+    {
+        ImportantInfo importantInfo = importantInfoRepository.getImportantInfoByInfoType("Zasady oceniania");
+
+        if(importantInfo == null)
+            throw new ResourceNotFoundException("Important info doesn't exist in database!");
+        else
+            return importantInfo;
+    }
+
+    @PostMapping("rules/change")
+    public void changeWorkEvaluationRules(String rules)
+    {
+        importantInfoRepository.changeWorkEvaluationRules(rules);
     }
 
     @PostMapping("change")
