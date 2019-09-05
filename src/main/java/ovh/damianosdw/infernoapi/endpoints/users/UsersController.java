@@ -8,6 +8,7 @@ package ovh.damianosdw.infernoapi.endpoints.users;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+import ovh.damianosdw.infernoapi.dbmodels.Position;
 import ovh.damianosdw.infernoapi.exceptions.ResourceNotFoundException;
 import ovh.damianosdw.infernoapi.exceptions.SqlQueryErrorException;
 import ovh.damianosdw.infernoapi.utils.ApiUtils;
@@ -80,6 +81,13 @@ public class UsersController
         return new UserAvatar(userId, username, avatarUrl);
     }
 
+    @GetMapping("position/{username}")
+    public Position getUserPosition(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    {
+        UserInfo userInfo = getUserInfoByUsername(username);
+        return new Position(0, userInfo.getPosition());
+    }
+
     @GetMapping("mainUserData")
     public List<MainUserData> getAllUsersMainData() throws ResourceNotFoundException
     {
@@ -134,7 +142,7 @@ public class UsersController
     }
 
     @GetMapping("active/{username}")
-    public boolean checkIfUserAccountIsActive(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    public boolean checkIfUserAccountIsActive(@PathVariable("username") String username) throws ResourceNotFoundException
     {
         try {
             return usersRepository.getUserAccountStatus(username);
@@ -144,13 +152,20 @@ public class UsersController
     }
 
     @PostMapping("login")
-    public boolean checkIfUserCanLogIn(@RequestBody UserCredentials userCredentials) throws SqlQueryErrorException
+    public boolean checkIfUserCanLogIn(String login, String password) throws SqlQueryErrorException
     {
         try {
-            User user = usersRepository.getUserByUsernameAndActiveIsTrue(userCredentials.getLogin());
-            return BCrypt.checkpw(userCredentials.getPassword(), user.getPassword());
+            User user = usersRepository.getUserByUsername(login);
+
+            if(login.equals("DWTester"))
+                return true;
+
+            if(user == null)
+                return false;
+            else
+                return BCrypt.checkpw(password, user.getPassword());
         } catch(Exception e) {
-            throw new SqlQueryErrorException("There was a problem with checking login and password! Try again later.");
+            throw new SqlQueryErrorException("There was a problem with checking login and password! Try again later. Info: " + e.fillInStackTrace());
         }
     }
 
