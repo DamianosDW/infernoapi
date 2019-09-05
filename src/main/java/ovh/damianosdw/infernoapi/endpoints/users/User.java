@@ -27,6 +27,8 @@ public class User
     private String password;
     @Column(name = "POSITION_ID", nullable = false)
     private int positionId;
+    @Column(name = "role", nullable = false)
+    private String role;
     private boolean active;
     @Column(name = "avatar_url")
     private String avatarURL;
