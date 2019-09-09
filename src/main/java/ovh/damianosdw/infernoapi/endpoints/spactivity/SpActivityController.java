@@ -40,13 +40,13 @@ public class SpActivityController
         return spActivityModuleRepository.findAll().get(0).getChannelsInUse();
     }
 
-    @PutMapping("/channelsInUse/{channelsInUse}/update")
-    public void updateChannelsInUse(@PathVariable("channelsInUse") int channelsInUse)
+    @PostMapping("/channelsInUse/update")
+    public void updateChannelsInUse(int channelsInUse)
     {
         spActivityModuleRepository.updateChannelsInUse(channelsInUse);
     }
-    @PutMapping("/numberOfChannels/{numberOfChannels}/update")
-    public void updateNumberOfChannels(@PathVariable("numberOfChannels") int numberOfChannels)
+    @PostMapping("/numberOfChannels/update")
+    public void updateNumberOfChannels(int numberOfChannels)
     {
         spActivityModuleRepository.updateNumberOfChannels(numberOfChannels);
     }
