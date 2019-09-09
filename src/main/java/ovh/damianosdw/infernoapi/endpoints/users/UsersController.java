@@ -152,20 +152,17 @@ public class UsersController
     }
 
     @PostMapping("login")
-    public boolean checkIfUserCanLogIn(String login, String password) throws SqlQueryErrorException
+    public boolean checkIfUserCanLogIn(@RequestParam String login, @RequestParam String password)
     {
         try {
             User user = usersRepository.getUserByUsername(login);
-
-            if(login.equals("DWTester"))
-                return true;
 
             if(user == null)
                 return false;
             else
                 return BCrypt.checkpw(password, user.getPassword());
         } catch(Exception e) {
-            throw new SqlQueryErrorException("There was a problem with checking login and password! Try again later. Info: " + e.fillInStackTrace());
+            return false;
         }
     }
 
