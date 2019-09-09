@@ -6,6 +6,7 @@
 package ovh.damianosdw.infernoapi.endpoints.users;
 
 import org.springframework.stereotype.Repository;
+import ovh.damianosdw.infernoapi.exceptions.SqlQueryErrorException;
 import ovh.damianosdw.infernoapi.utils.ApiUtils;
 
 import javax.persistence.EntityManager;
@@ -69,5 +70,19 @@ public class UsersCustomImpl implements UsersCustom
             return false;
         else
             return (Boolean) result.get(0);
+    }
+
+    @Override
+    public boolean updateUserPassword(int userId, String password)
+    {
+        try {
+            entityManager.createNativeQuery("UPDATE users SET password = ? WHERE USER_ID = ?")
+                    .setParameter(1, password)
+                    .setParameter(2, userId)
+                    .executeUpdate();
+            return true;
+        } catch(Exception e) {
+            return false;
+        }
     }
 }

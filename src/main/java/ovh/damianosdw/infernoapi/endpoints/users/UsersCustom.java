@@ -9,4 +9,5 @@ public interface UsersCustom
 {
     UserInfo getUserInfoByUsername(String username);
     boolean getUserAccountStatus(String username);
+    boolean updateUserPassword(int userId, String password);
 }
