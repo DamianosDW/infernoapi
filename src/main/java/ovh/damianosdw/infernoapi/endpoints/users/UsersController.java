@@ -169,6 +169,16 @@ public class UsersController
         }
     }
 
+    @PostMapping("updatePassword")
+    public void updateUserPassword(int userId, String password) throws SqlQueryErrorException
+    {
+        try {
+            usersRepository.updateUserPassword(userId, password);
+        } catch(Exception e) {
+            throw new SqlQueryErrorException("There was a problem with updating user password! Try again later. Info: " + e.fillInStackTrace());
+        }
+    }
+
     @PutMapping("create")
     public void createUserAccount(@RequestBody User user) throws SqlQueryErrorException
     {
