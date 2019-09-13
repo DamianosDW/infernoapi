@@ -33,6 +33,18 @@ public class SpChannelsController
         return spFreeChannelsRepository.findAll().stream().filter(spFreeChannels -> spFreeChannels.isFree()).collect(Collectors.toList());
     }
 
+    @PostMapping("setAsFree")
+    public void setChannelAsFree(int channelNumber)
+    {
+        spFreeChannelsRepository.setChannelAsFree(channelNumber);
+    }
+
+    @PostMapping("setAsOccupied")
+    public void setChannelAsOccupied(int channelNumber)
+    {
+        spFreeChannelsRepository.setChannelAsOccupied(channelNumber);
+    }
+
     @PostMapping("setAsInactive")
     public void setSpChannelAsInactive(int channelNumber)
     {

@@ -8,7 +8,7 @@ package ovh.damianosdw.infernoapi.endpoints.spchannels;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ovh.damianosdw.infernoapi.dbmodels.SpFreeChannels;
 
-public interface SpFreeChannelsRepository extends JpaRepository<SpFreeChannels, Integer>
+public interface SpFreeChannelsRepository extends JpaRepository<SpFreeChannels, Integer>, SpFreeChannelsCustom
 {
 
 }
