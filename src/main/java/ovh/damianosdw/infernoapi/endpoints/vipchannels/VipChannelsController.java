@@ -33,6 +33,18 @@ public class VipChannelsController
         return vipFreeChannelsRepository.findAll().stream().filter(vipFreeChannels -> vipFreeChannels.isFree()).collect(Collectors.toList());
     }
 
+    @PostMapping("setAsFree")
+    public void setChannelAsFree(int channelNumber)
+    {
+        vipFreeChannelsRepository.setChannelAsFree(channelNumber);
+    }
+
+    @PostMapping("setAsOccupied")
+    public void setChannelAsOccupied(int channelNumber)
+    {
+        vipFreeChannelsRepository.setChannelAsOccupied(channelNumber);
+    }
+
     @PostMapping("setAsInactive")
     public void setVipChannelAsInactive(int channelNumber)
     {
