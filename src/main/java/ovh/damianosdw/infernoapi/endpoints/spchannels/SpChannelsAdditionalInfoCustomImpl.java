@@ -22,7 +22,7 @@ public class SpChannelsAdditionalInfoCustomImpl implements SpChannelsAdditionalI
     @Override
     public void setChannelAsInactive(int channelNumber)
     {
-        entityManager.createNativeQuery("UPDATE sp_channel_additional_info SET inactive = true WHERE channel_number = ?")
+        entityManager.createNativeQuery("UPDATE sp_channels_additional_info SET inactive = true WHERE channel_number = ?")
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }
