@@ -8,11 +8,13 @@ package ovh.damianosdw.infernoapi.endpoints.spactivity;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ovh.damianosdw.infernoapi.dbmodels.CandidatesSpActivityCheck;
+import ovh.damianosdw.infernoapi.dbmodels.ChannelActivity;
 import ovh.damianosdw.infernoapi.dbmodels.SpActivityCheck;
 import ovh.damianosdw.infernoapi.utils.ChannelsActivityUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +60,10 @@ public class SpActivityController
     }
 
     // sp_activity_check (admins)
-    @GetMapping("monthly/{channelNumber}/{month}")
-    public Map<String, Integer> getMonthlySpActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
+    @GetMapping("{channelNumber}/monthly/{month}")
+    public List<ChannelActivity> getMonthlySpActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
     {
-        HashMap<String, Integer> allSpActivity = new HashMap<>();
+        List<ChannelActivity> allSpActivity = new ArrayList<>();
         List<SpActivityCheck> monthlyActivity = spActivityCheckRepository.findAll()
                 .stream()
                 .filter(vipActivity -> vipActivity.getCheckDate().getMonthValue() == month && vipActivity.getCheckDate().getYear() == LocalDateTime.now().getYear())
@@ -76,13 +78,12 @@ public class SpActivityController
             // Save max activity, update activity date and reset max activity
             if(!activityDate.equals(spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
             {
-                allSpActivity.put(activityDate, maxActivity);
+                allSpActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
                 activityDate = spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 maxActivity = 0;
             }
-
-            if(ChannelsActivityUtils.getPrivateChannelActivity(channelNumber, spActivity) > maxActivity)
-                maxActivity = ChannelsActivityUtils.getPrivateChannelActivity(channelNumber, spActivity);
+            else
+                maxActivity = Math.max(ChannelsActivityUtils.getPrivateChannelActivity(channelNumber, spActivity), maxActivity);
         }
         return allSpActivity;
     }

@@ -8,11 +8,13 @@ package ovh.damianosdw.infernoapi.endpoints.vipactivity;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ovh.damianosdw.infernoapi.dbmodels.CandidatesVipActivityCheck;
+import ovh.damianosdw.infernoapi.dbmodels.ChannelActivity;
 import ovh.damianosdw.infernoapi.dbmodels.VipActivityCheck;
 import ovh.damianosdw.infernoapi.utils.ChannelsActivityUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +60,10 @@ public class VipActivityController
     }
 
     // vip_activity_check (admins)
-    @GetMapping("monthly/{channelNumber}/{month}")
-    public Map<String, Integer> getMonthlyVipActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
+    @GetMapping("{channelNumber}/monthly/{month}")
+    public List<ChannelActivity> getMonthlyVipActivity(@PathVariable("channelNumber") int channelNumber, @PathVariable("month") int month)
     {
-        HashMap<String, Integer> allVipActivity = new HashMap<>();
+        List<ChannelActivity> allVipActivity = new ArrayList<>();
         List<VipActivityCheck> monthlyActivity = vipActivityCheckRepository.findAll()
                 .stream()
                 .filter(vipActivity -> vipActivity.getCheckDate().getMonthValue() == month && vipActivity.getCheckDate().getYear() == LocalDateTime.now().getYear())
@@ -76,7 +78,7 @@ public class VipActivityController
             // Save max activity, update activity date and reset max activity
             if(!activityDate.equals(vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
             {
-                allVipActivity.put(activityDate, maxActivity);
+                allVipActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
                 activityDate = vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 maxActivity = 0;
             }
