@@ -6,9 +6,12 @@
 package ovh.damianosdw.infernoapi.endpoints.spchannels;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ovh.damianosdw.infernoapi.dbmodels.SpChannelsAdditionalInfo;
 import ovh.damianosdw.infernoapi.dbmodels.SpFreeChannels;
-import ovh.damianosdw.infernoapi.dbmodels.VipChannelsAdditionalInfo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +25,7 @@ public class SpChannelsController
     private final SpFreeChannelsRepository spFreeChannelsRepository;
 
     @GetMapping("inactive")
-    public List<VipChannelsAdditionalInfo> getAllInactiveChannels()
+    public List<SpChannelsAdditionalInfo> getAllInactiveChannels()
     {
         return spChannelsAdditionalInfoRepository.findAll().stream().filter(spChannelsAdditionalInfo -> spChannelsAdditionalInfo.isInactive()).collect(Collectors.toList());
     }
