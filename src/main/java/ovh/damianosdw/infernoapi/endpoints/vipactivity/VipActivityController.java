@@ -70,23 +70,28 @@ public class VipActivityController
                 .collect(Collectors.toList());
 
         // Get max channel activity
-        String activityDate = monthlyActivity.get(0).getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        int maxActivity = 0;
-
-        for (VipActivityCheck vipActivity : monthlyActivity)
+        if(!monthlyActivity.isEmpty())
         {
-            // Save max activity, update activity date and reset max activity
-            if(!activityDate.equals(vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
-            {
-                allVipActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
-                activityDate = vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                maxActivity = 0;
-            }
+            String activityDate = monthlyActivity.get(0).getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            int maxActivity = 0;
 
-            if(ChannelsActivityUtils.getVipChannelActivity(channelNumber, vipActivity) > maxActivity)
-                maxActivity = ChannelsActivityUtils.getVipChannelActivity(channelNumber, vipActivity);
+            for (VipActivityCheck vipActivity : monthlyActivity)
+            {
+                // Save max activity, update activity date and reset max activity
+                if(!activityDate.equals(vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+                {
+                    allVipActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
+                    activityDate = vipActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    maxActivity = 0;
+                }
+
+                if(ChannelsActivityUtils.getVipChannelActivity(channelNumber, vipActivity) > maxActivity)
+                    maxActivity = ChannelsActivityUtils.getVipChannelActivity(channelNumber, vipActivity);
+            }
+            return allVipActivity;
         }
-        return allVipActivity;
+        else
+            return new ArrayList<>();
     }
 
     @GetMapping("weekly")

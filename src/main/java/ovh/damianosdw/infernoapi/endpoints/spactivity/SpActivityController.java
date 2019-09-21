@@ -70,22 +70,27 @@ public class SpActivityController
                 .collect(Collectors.toList());
 
         // Get max channel activity
-        String activityDate = monthlyActivity.get(0).getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        int maxActivity = 0;
-
-        for (SpActivityCheck spActivity : monthlyActivity)
+        if(!monthlyActivity.isEmpty())
         {
-            // Save max activity, update activity date and reset max activity
-            if(!activityDate.equals(spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+            String activityDate = monthlyActivity.get(0).getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            int maxActivity = 0;
+
+            for (SpActivityCheck spActivity : monthlyActivity)
             {
-                allSpActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
-                activityDate = spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                maxActivity = 0;
+                // Save max activity, update activity date and reset max activity
+                if(!activityDate.equals(spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
+                {
+                    allSpActivity.add(new ChannelActivity(channelNumber, activityDate, maxActivity));
+                    activityDate = spActivity.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    maxActivity = 0;
+                }
+                else
+                    maxActivity = Math.max(ChannelsActivityUtils.getPrivateChannelActivity(channelNumber, spActivity), maxActivity);
             }
-            else
-                maxActivity = Math.max(ChannelsActivityUtils.getPrivateChannelActivity(channelNumber, spActivity), maxActivity);
+            return allSpActivity;
         }
-        return allSpActivity;
+        else
+            return new ArrayList<>();
     }
 
     @GetMapping("weekly")
