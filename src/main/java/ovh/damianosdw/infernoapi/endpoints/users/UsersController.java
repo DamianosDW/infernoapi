@@ -54,6 +54,17 @@ public class UsersController
             return userInfo.getUserId();
     }
 
+    @GetMapping("{userId}/username")
+    public String getUsernameByUserId(@PathVariable("userId") int userId) throws ResourceNotFoundException
+    {
+        User user = usersRepository.getUserByUserId(userId);
+
+        if(user == null)
+            throw new ResourceNotFoundException("User doesn't exist in database!");
+        else
+            return user.getUsername();
+    }
+
     @GetMapping("avatars")
     public List<UserAvatar> getAllUserAvatars() throws ResourceNotFoundException
     {
