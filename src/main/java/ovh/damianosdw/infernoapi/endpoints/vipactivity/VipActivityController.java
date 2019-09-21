@@ -90,33 +90,37 @@ public class VipActivityController
     }
 
     @GetMapping("weekly")
-    public Map<Integer, Integer> getAllWeeklyVipActivity()
+    public List<ChannelActivity> getAllWeeklyVipActivity()
     {
         int channelsInUse = vipActivityModuleRepository.findAll().get(0).getChannelsInUse();
 
         // Prepare HashMap
-        HashMap<Integer, Integer> allVipActivity = new HashMap<>();
+        HashMap<Integer, Integer> tempVipActivity = new HashMap<>();
         for(int i = 1; i <= channelsInUse; i++)
-            allVipActivity.put(i, 0);
+            tempVipActivity.put(i, 0);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         List<VipActivityCheck> weeklyVipActivity = vipActivityCheckRepository.findAll()
                 .stream()
-                .filter(vipActivity -> vipActivity.getCheckDate().isAfter(currentDateTime.minusWeeks(1).minusDays(1)))
+                .filter(spActivity -> spActivity.getCheckDate().isAfter(currentDateTime.minusWeeks(1).minusDays(1)))
                 .collect(Collectors.toList());
 
         // Get vip channels activity
-        for (VipActivityCheck vipActivity : weeklyVipActivity)
+        for(VipActivityCheck vipActivity : weeklyVipActivity)
         {
             for(int i = 1; i <= channelsInUse; i++)
             {
-                if( ChannelsActivityUtils.getVipChannelActivity(i, vipActivity) > allVipActivity.get(i))
-                {
-                    allVipActivity.put(i, ChannelsActivityUtils.getVipChannelActivity(i, vipActivity));
-                }
+                int maxActivity = Math.max(ChannelsActivityUtils.getVipChannelActivity(i, vipActivity), tempVipActivity.get(i));
+                tempVipActivity.put(i, maxActivity);
             }
         }
+
+        List<ChannelActivity> allVipActivity = new ArrayList<>();
+
+        for(Map.Entry<Integer, Integer> activity : tempVipActivity.entrySet())
+            allVipActivity.add(new ChannelActivity(activity.getKey(), null, activity.getValue()));
+
         return allVipActivity;
     }
 

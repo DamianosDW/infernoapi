@@ -89,14 +89,14 @@ public class SpActivityController
     }
 
     @GetMapping("weekly")
-    public Map<Integer, Integer> getAllWeeklySpActivity()
+    public List<ChannelActivity> getAllWeeklySpActivity()
     {
         int channelsInUse = spActivityModuleRepository.findAll().get(0).getChannelsInUse();
 
         // Prepare HashMap
-        HashMap<Integer, Integer> allSpActivity = new HashMap<>();
+        HashMap<Integer, Integer> tempSpActivity = new HashMap<>();
         for(int i = 1; i <= channelsInUse; i++)
-            allSpActivity.put(i, 0);
+            tempSpActivity.put(i, 0);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -106,16 +106,20 @@ public class SpActivityController
                 .collect(Collectors.toList());
 
         // Get sp channels activity
-        for (SpActivityCheck spActivity : weeklySpActivity)
+        for(SpActivityCheck spActivity : weeklySpActivity)
         {
             for(int i = 1; i <= channelsInUse; i++)
             {
-                if( ChannelsActivityUtils.getPrivateChannelActivity(i, spActivity) > allSpActivity.get(i))
-                {
-                    allSpActivity.put(i, ChannelsActivityUtils.getPrivateChannelActivity(i, spActivity));
-                }
+                int maxActivity = Math.max(ChannelsActivityUtils.getPrivateChannelActivity(i, spActivity), tempSpActivity.get(i));
+                tempSpActivity.put(i, maxActivity);
             }
         }
+
+        List<ChannelActivity> allSpActivity = new ArrayList<>();
+
+        for(Map.Entry<Integer, Integer> activity : tempSpActivity.entrySet())
+            allSpActivity.add(new ChannelActivity(activity.getKey(), null, activity.getValue()));
+
         return allSpActivity;
     }
 
