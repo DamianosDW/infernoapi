@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class SpChannelsAdditionalInfo
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int channelInfoId;
     private int channelCreatorId;
     private int channelNumber;

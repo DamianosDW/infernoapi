@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class VipActivityCheck
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CHECK_ID", nullable = false, unique = true)
     private int checkId;
     private int userId;
