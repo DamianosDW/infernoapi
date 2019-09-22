@@ -23,7 +23,7 @@ public class UserActivity
 {
     @Column(name = "ACTIVITY_ID", nullable = false, unique = true)
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int activityId;
     @Column(name = "USER_ID", nullable = false)
     private int userId;
