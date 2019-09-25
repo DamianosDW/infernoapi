@@ -42,6 +42,27 @@ public class SpActivityController
         return spActivityModuleRepository.findAll().get(0).getChannelsInUse();
     }
 
+    @GetMapping("{userId}/checkDates")
+    public List<String> getActivityCheckDates(@PathVariable("userId") int userId)
+    {
+        List<SpActivityCheck> privateZoneActivityChecks = spActivityCheckRepository.getSpActivityChecksByUserId(userId);
+
+        if(privateZoneActivityChecks.isEmpty())
+            return new ArrayList<>();
+        else
+        {
+            List<String> activityCheckDates = new ArrayList<>();
+
+            for(SpActivityCheck activityCheck : privateZoneActivityChecks)
+            {
+                String checkDate = activityCheck.getCheckDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                activityCheckDates.add(checkDate);
+            }
+
+            return activityCheckDates;
+        }
+    }
+
     @PostMapping("/channelsInUse/update")
     public void updateChannelsInUse(int channelsInUse)
     {
