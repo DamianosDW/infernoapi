@@ -24,6 +24,12 @@ public class UsersActivityController
         return userActivityRepository.findAll();
     }
 
+    @GetMapping("{userId}/numberOfSuccessfulLogin")
+    public int getNumberOfSuccessfulLoginByUserId(@PathVariable("userId") int userId)
+    {
+        return userActivityRepository.getNumberOfSuccessfulLogin(userId);
+    }
+
     @GetMapping("/{month}/usersActivity")
     public List<UserActivity> getUsersActivityByMonth(@PathVariable("month") int month)
     {
