@@ -56,6 +56,21 @@ public class WorkReportsController
             throw new ResourceNotFoundException("This user didn't send work report!");
     }
 
+    @GetMapping("{userId}/numberOfSentWorkReports")
+    public int getNumberOfSentWorkReportsByUserId(@PathVariable("userId") int userId)
+    {
+        try {
+            List<WorkReport> workReports = getWorkReportsByUserId(userId);
+
+            if(workReports == null || workReports.isEmpty())
+                return 0;
+            else
+                return workReports.size();
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
     @GetMapping("{userId}/userReport")
     public List<WorkReport> getWorkReportsByUserId(@PathVariable("userId") int userId) throws ResourceNotFoundException
     {
