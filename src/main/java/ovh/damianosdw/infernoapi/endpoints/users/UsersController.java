@@ -25,6 +25,24 @@ public class UsersController
 {
     private final UsersRepository usersRepository;
 
+    @GetMapping("admins")
+    public List<UserInfo> getInfoAboutAdmins()
+    {
+        return usersRepository.getInfoAboutAdmins();
+    }
+
+    @GetMapping("candidates")
+    public List<UserInfo> getInfoAboutCandidates()
+    {
+        return usersRepository.getInfoAboutCandidates();
+    }
+
+    @GetMapping("testers")
+    public List<UserInfo> getInfoAboutTesters()
+    {
+        return usersRepository.getInfoAboutTesters();
+    }
+
     @GetMapping("ids")
     public List<Integer> getAllUserIds() throws ResourceNotFoundException
     {
