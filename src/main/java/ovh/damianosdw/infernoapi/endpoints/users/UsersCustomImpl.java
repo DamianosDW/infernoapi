@@ -6,12 +6,12 @@
 package ovh.damianosdw.infernoapi.endpoints.users;
 
 import org.springframework.stereotype.Repository;
-import ovh.damianosdw.infernoapi.exceptions.SqlQueryErrorException;
 import ovh.damianosdw.infernoapi.utils.ApiUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -84,5 +84,49 @@ public class UsersCustomImpl implements UsersCustom
         } catch(Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<UserInfo> getInfoAboutAdmins()
+    {
+        List infoAboutAdmins = entityManager.createNativeQuery("SELECT USER_ID, user, position_name FROM users INNER JOIN positions ON users.POSITION_ID = positions.POSITION_ID WHERE users.POSITION_ID IN(6, 7, 8, 17) AND active=1")
+                .getResultList();
+
+        return prepareInfoAboutProperUsers(infoAboutAdmins);
+    }
+
+    @Override
+    public List<UserInfo> getInfoAboutCandidates()
+    {
+        List infoAboutCandidates = entityManager.createNativeQuery("SELECT USER_ID, user, position_name FROM users INNER JOIN positions ON users.POSITION_ID = positions.POSITION_ID WHERE users.POSITION_ID IN(9, 10, 11, 16) AND active=1", UserInfo.class)
+                .getResultList();
+
+        return prepareInfoAboutProperUsers(infoAboutCandidates);
+    }
+
+    @Override
+    public List<UserInfo> getInfoAboutTesters()
+    {
+        List infoAboutTesters = entityManager.createNativeQuery("SELECT USER_ID, user, position_name FROM users INNER JOIN positions ON users.POSITION_ID = positions.POSITION_ID WHERE users.POSITION_ID=15 AND active=1")
+                .getResultList();
+
+        return prepareInfoAboutProperUsers(infoAboutTesters);
+    }
+
+    private List<UserInfo> prepareInfoAboutProperUsers(List resultList)
+    {
+        List<UserInfo> infoAboutUsers = new ArrayList<>();
+
+        for(Object result : resultList)
+        {
+            Object[] userData = (Object[]) result;
+            int userId = (int) userData[0];
+            String username = (String) userData[1];
+            String position = (String) userData[2];
+
+            infoAboutUsers.add(new UserInfo(userId, username, position));
+        }
+
+        return infoAboutUsers;
     }
 }
