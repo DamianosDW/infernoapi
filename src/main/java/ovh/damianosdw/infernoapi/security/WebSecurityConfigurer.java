@@ -104,6 +104,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter
                 .antMatchers("/csrf").permitAll()
                 // InfernoAPI
                 .antMatchers("/infernoapi/users/active/**").permitAll()
+                .antMatchers("/infernoapi/users/position/**").permitAll()
+                .antMatchers("/infernoapi/users/login").permitAll()
+                .antMatchers("/infernoapi/autoLogin/username").permitAll()
                 .antMatchers("/infernoapi/users/create").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -111,8 +114,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception
+    public void configure(WebSecurity web)
     {
-        web.ignoring().antMatchers("/infernoapi/users/active/**");
+        web.ignoring()
+                .antMatchers("/infernoapi/users/active/**")
+                .antMatchers("/infernoapi/users/position/**")
+                .antMatchers("/infernoapi/users/login")
+                .antMatchers("/infernoapi/autoLogin/username");
     }
 }
