@@ -7,8 +7,9 @@ API for "Inferno CP" app and "DWBot".
 2. Download source code.
 3. Move all files to project directory.
 4. Add necessary dependencies to pom.xml file.
-5. Modify application.properties (add database url, login and password).
-6. Build and run :)
+5. Prepare application.properties (add database url, login and password to existing file or create application.properties).
+6. Set client id (ApiUtils class).
+7. Build and run :)
 
 # Dependencies (maven)
 ```
@@ -99,3 +100,11 @@ API for "Inferno CP" app and "DWBot".
   <version>0.4</version>
 </dependency>
  ```
+ 
+# application.properties pattern
+```
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=
+```
