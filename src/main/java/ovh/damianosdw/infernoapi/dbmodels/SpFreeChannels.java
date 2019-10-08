@@ -9,19 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "positions")
-public class Position
+public class SpFreeChannels
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POSITION_ID")
-    private int positionId;
-    @Column(name = "position_name", nullable = false)
-    private String positionName;
+    private int channelId;
+    private boolean free;
 }

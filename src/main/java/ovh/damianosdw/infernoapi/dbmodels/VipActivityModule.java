@@ -20,7 +20,7 @@ public class VipActivityModule
 {
     @Column(name = "OPTIONS_ID", nullable = false, unique = true)
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int optionsId;
     private int numberOfChannels;
     private int channelsInUse;

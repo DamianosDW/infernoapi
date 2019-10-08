@@ -3,7 +3,7 @@
  * https://damianosdw.ovh
  */
 
-package ovh.damianosdw.infernoapi.endpoints.vipchannels;
+package ovh.damianosdw.infernoapi.endpoints.spchannels;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class VipChannelsAdditionalInfoCustomImpl implements VipChannelsAdditionalInfoCustom
+public class SpChannelsAdditionalInfoCustomImpl implements SpChannelsAdditionalInfoCustom
 {
 
     @PersistenceContext
@@ -22,7 +22,7 @@ public class VipChannelsAdditionalInfoCustomImpl implements VipChannelsAdditiona
     @Override
     public void setChannelAsInactive(int channelNumber)
     {
-        entityManager.createNativeQuery("UPDATE vip_channels_additional_info SET inactive = true WHERE channel_number = ?")
+        entityManager.createNativeQuery("UPDATE sp_channels_additional_info SET inactive = true WHERE channel_number = ?")
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }
@@ -30,7 +30,7 @@ public class VipChannelsAdditionalInfoCustomImpl implements VipChannelsAdditiona
     @Override
     public void setChannelAsActive(int channelNumber)
     {
-        entityManager.createNativeQuery("UPDATE vip_channels_additional_info SET inactive = 0, channel_inactivity_date = NULL WHERE channel_number = ?")
+        entityManager.createNativeQuery("UPDATE sp_channels_additional_info SET inactive = 0, channel_inactivity_date = NULL WHERE channel_number = ?")
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }

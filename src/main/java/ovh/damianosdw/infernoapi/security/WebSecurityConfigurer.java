@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -102,9 +103,23 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter
                 .antMatchers("/").permitAll()
                 .antMatchers("/csrf").permitAll()
                 // InfernoAPI
+                .antMatchers("/infernoapi/users/active/**").permitAll()
+                .antMatchers("/infernoapi/users/position/**").permitAll()
+                .antMatchers("/infernoapi/users/login").permitAll()
+                .antMatchers("/infernoapi/autoLogin/username").permitAll()
                 .antMatchers("/infernoapi/users/create").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
+    }
+
+    @Override
+    public void configure(WebSecurity web)
+    {
+        web.ignoring()
+                .antMatchers("/infernoapi/users/active/**")
+                .antMatchers("/infernoapi/users/position/**")
+                .antMatchers("/infernoapi/users/login")
+                .antMatchers("/infernoapi/autoLogin/username");
     }
 }

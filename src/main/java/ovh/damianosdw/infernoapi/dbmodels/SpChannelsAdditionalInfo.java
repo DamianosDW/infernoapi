@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "vip_channels_additional_info")
-public class VipChannelsAdditionalInfo
+@Table(name = "sp_channels_additional_info")
+public class SpChannelsAdditionalInfo
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

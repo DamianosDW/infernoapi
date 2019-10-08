@@ -13,24 +13,23 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class VipChannelsAdditionalInfoCustomImpl implements VipChannelsAdditionalInfoCustom
+public class VipFreeChannelsCustomImpl implements VipFreeChannelsCustom
 {
-
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public void setChannelAsInactive(int channelNumber)
+    public void setChannelAsFree(int channelNumber)
     {
-        entityManager.createNativeQuery("UPDATE vip_channels_additional_info SET inactive = true WHERE channel_number = ?")
+        entityManager.createNativeQuery("UPDATE vip_free_channels SET free = 1 WHERE CHANNEL_ID = ?")
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }
 
     @Override
-    public void setChannelAsActive(int channelNumber)
+    public void setChannelAsOccupied(int channelNumber)
     {
-        entityManager.createNativeQuery("UPDATE vip_channels_additional_info SET inactive = 0, channel_inactivity_date = NULL WHERE channel_number = ?")
+        entityManager.createNativeQuery("UPDATE vip_free_channels SET free = 0 WHERE CHANNEL_ID = ?")
                 .setParameter(1, channelNumber)
                 .executeUpdate();
     }

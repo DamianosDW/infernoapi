@@ -8,6 +8,7 @@ package ovh.damianosdw.infernoapi.endpoints.users;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+import ovh.damianosdw.infernoapi.dbmodels.Position;
 import ovh.damianosdw.infernoapi.exceptions.ResourceNotFoundException;
 import ovh.damianosdw.infernoapi.exceptions.SqlQueryErrorException;
 import ovh.damianosdw.infernoapi.utils.ApiUtils;
@@ -18,11 +19,69 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/infernoapi/users")
+@RequestMapping("/infernoapi/users/")
 @AllArgsConstructor
 public class UsersController
 {
     private final UsersRepository usersRepository;
+
+    @GetMapping("admins")
+    public List<UserInfo> getInfoAboutAdmins()
+    {
+        return usersRepository.getInfoAboutAdmins();
+    }
+
+    @GetMapping("candidates")
+    public List<UserInfo> getInfoAboutCandidates()
+    {
+        return usersRepository.getInfoAboutCandidates();
+    }
+
+    @GetMapping("testers")
+    public List<UserInfo> getInfoAboutTesters()
+    {
+        return usersRepository.getInfoAboutTesters();
+    }
+
+    @GetMapping("ids")
+    public List<Integer> getAllUserIds() throws ResourceNotFoundException
+    {
+        List<MainUserData> allUsersMainData = getAllUsersMainData();
+
+        if(allUsersMainData.isEmpty())
+            throw new ResourceNotFoundException("Users don't exist in database!");
+        else
+        {
+            List<Integer> userIds = new ArrayList<>();
+
+            for(MainUserData mainUserData : allUsersMainData)
+                userIds.add(mainUserData.getUserId());
+
+            return userIds;
+        }
+    }
+
+    @GetMapping("{username}/id")
+    public int getUserIdByUsername(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    {
+        UserInfo userInfo = getUserInfoByUsername(username);
+
+        if(userInfo == null)
+            throw new ResourceNotFoundException("User doesn't exist in database!");
+        else
+            return userInfo.getUserId();
+    }
+
+    @GetMapping("{userId}/username")
+    public String getUsernameByUserId(@PathVariable("userId") int userId) throws ResourceNotFoundException
+    {
+        User user = usersRepository.getUserByUserId(userId);
+
+        if(user == null)
+            throw new ResourceNotFoundException("User doesn't exist in database!");
+        else
+            return user.getUsername();
+    }
 
     @GetMapping("avatars")
     public List<UserAvatar> getAllUserAvatars() throws ResourceNotFoundException
@@ -49,6 +108,13 @@ public class UsersController
         String avatarUrl = user.getAvatarURL();
 
         return new UserAvatar(userId, username, avatarUrl);
+    }
+
+    @GetMapping("position/{username}")
+    public Position getUserPosition(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    {
+        UserInfo userInfo = getUserInfoByUsername(username);
+        return new Position(0, userInfo.getPosition());
     }
 
     @GetMapping("mainUserData")
@@ -104,26 +170,38 @@ public class UsersController
             throw new ResourceNotFoundException("This user doesn't exist in database!");
     }
 
-    @GetMapping("{username}/active")
-    public boolean checkIfUserAccountIsActive(@PathVariable("username") String username) throws ResourceNotFoundException, SqlQueryErrorException
+    @GetMapping("active/{username}")
+    public boolean checkIfUserAccountIsActive(@PathVariable("username") String username) throws ResourceNotFoundException
     {
         try {
             return usersRepository.getUserAccountStatus(username);
         } catch(NoResultException e) {
             throw new ResourceNotFoundException("This user doesn't exist in database!");
-        } catch(Exception e) {
-            throw new SqlQueryErrorException("There was a problem with getting account status!");
         }
     }
 
     @PostMapping("login")
-    public boolean checkIfUserCanLogIn(@RequestBody UserCredentials userCredentials) throws SqlQueryErrorException
+    public boolean checkIfUserCanLogIn(@RequestParam String login, @RequestParam String password)
     {
         try {
-            User user = usersRepository.getUserByUsernameAndActiveIsTrue(userCredentials.getLogin());
-            return BCrypt.checkpw(userCredentials.getPassword(), user.getPassword());
+            User user = usersRepository.getUserByUsername(login);
+
+            if(user == null)
+                return false;
+            else
+                return BCrypt.checkpw(password, user.getPassword());
         } catch(Exception e) {
-            throw new SqlQueryErrorException("There was a problem with checking login and password! Try again later.");
+            return false;
+        }
+    }
+
+    @PostMapping("updatePassword")
+    public void updateUserPassword(int userId, String password) throws SqlQueryErrorException
+    {
+        try {
+            usersRepository.updateUserPassword(userId, password);
+        } catch(Exception e) {
+            throw new SqlQueryErrorException("There was a problem with updating user password! Try again later. Info: " + e.fillInStackTrace());
         }
     }
 

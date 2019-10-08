@@ -23,6 +23,36 @@ public class ActivityOnDutyController
     private final ActivityOnDutyRepository activityOnDutyRepository;
     private final CandidatesActivityRepository candidatesActivityRepository;
 
+    @GetMapping("{userId}/numberOfAdminActivitiesOnDuty")
+    public int getNumberOfAdminActivitiesOnDuty(@PathVariable("userId") int userId)
+    {
+        try {
+            List<ActivityOnDuty> adminActivitiesOnDuty = getAdminActivityOnDutyByUserId(userId);
+
+            if(adminActivitiesOnDuty == null || adminActivitiesOnDuty.isEmpty())
+                return 0;
+            else
+                return adminActivitiesOnDuty.size();
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
+    @GetMapping("{userId}/numberOfCandidateActivitiesOnDuty")
+    public int getNumberOfCandidateActivitiesOnDuty(@PathVariable("userId") int userId)
+    {
+        try {
+            List<CandidatesActivity> candidateActivitiesOnDuty = getCandidateActivityOnDutyByUserId(userId);
+
+            if(candidateActivitiesOnDuty == null || candidateActivitiesOnDuty.isEmpty())
+                return 0;
+            else
+                return candidateActivitiesOnDuty.size();
+        } catch(Exception e) {
+            return 0;
+        }
+    }
+
     @GetMapping("adminActivities")
     public List<ActivityOnDuty> getAllAdminActivitiesOnDuty() throws ResourceNotFoundException
     {

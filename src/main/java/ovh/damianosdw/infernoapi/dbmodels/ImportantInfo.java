@@ -8,6 +8,7 @@ package ovh.damianosdw.infernoapi.dbmodels;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -15,13 +16,16 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "positions")
-public class Position
+@Table(name = "important_info")
+public class ImportantInfo
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POSITION_ID")
-    private int positionId;
-    @Column(name = "position_name", nullable = false)
-    private String positionName;
+    @Column(name = "INFO_ID")
+    private int infoId;
+    @Column(name = "info_type", nullable = false)
+    private String infoType;
+    @Column(name = "content", nullable = false)
+    @Type(type = "text")
+    private String content;
 }

@@ -3,11 +3,6 @@
  * https://damianosdw.ovh
  */
 
-/*
- * Created by DamianosDW
- * https://damianosdw.ovh
- */
-
 package ovh.damianosdw.infernoapi.dbmodels;
 
 import lombok.AllArgsConstructor;
@@ -21,8 +16,8 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sp_activity_check")
-public class SpActivityCheck
+@Table(name = "candidates_sp_activity_check")
+public class CandidatesSpActivityCheck
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

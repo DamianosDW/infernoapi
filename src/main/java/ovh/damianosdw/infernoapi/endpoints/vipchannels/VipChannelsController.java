@@ -14,30 +14,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/infernoapi/vipchannels")
+@RequestMapping("/infernoapi/vipchannels/")
 @AllArgsConstructor
 public class VipChannelsController
 {
     private final VipChannelsAdditionalInfoRepository vipChannelsAdditionalInfoRepository;
     private final VipFreeChannelsRepository vipFreeChannelsRepository;
 
-    // vip_channels_additional_info
-    @GetMapping("/inactive")
+    @GetMapping("inactive")
     public List<VipChannelsAdditionalInfo> getAllInactiveChannels()
     {
         return vipChannelsAdditionalInfoRepository.findAll().stream().filter(vipChannelsAdditionalInfo -> vipChannelsAdditionalInfo.isInactive()).collect(Collectors.toList());
     }
 
-    @PutMapping("/set/inactive/{channelNumber}")
-    public void setVipChannelAsInactive(@PathVariable("channelNumber") int channelNumber)
+    @GetMapping("free")
+    public List<VipFreeChannels> getAllFreeVipChannels()
+    {
+        return vipFreeChannelsRepository.findAll().stream().filter(vipFreeChannels -> vipFreeChannels.isFree()).collect(Collectors.toList());
+    }
+
+    @PostMapping("setAsFree")
+    public void setChannelAsFree(int channelNumber)
+    {
+        vipFreeChannelsRepository.setChannelAsFree(channelNumber);
+    }
+
+    @PostMapping("setAsOccupied")
+    public void setChannelAsOccupied(int channelNumber)
+    {
+        vipFreeChannelsRepository.setChannelAsOccupied(channelNumber);
+    }
+
+    @PostMapping("setAsInactive")
+    public void setVipChannelAsInactive(int channelNumber)
     {
         vipChannelsAdditionalInfoRepository.setChannelAsInactive(channelNumber);
     }
 
-    // vip_free_channels
-    @GetMapping("/free")
-    public List<VipFreeChannels> getAllFreeVipChannels()
+    @PostMapping("setAsActive")
+    public void setSpChannelAsActive(int channelNumber)
     {
-        return vipFreeChannelsRepository.findAll().stream().filter(vipFreeChannels -> vipFreeChannels.isFree()).collect(Collectors.toList());
+        vipChannelsAdditionalInfoRepository.setChannelAsActive(channelNumber);
     }
 }
