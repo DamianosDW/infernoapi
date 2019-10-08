@@ -19,10 +19,43 @@ API for "Inferno CP" app and "DWBot".
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-jdbc</artifactId>
-  </dependency>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-jms -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-jms</artifactId>
+  <version>5.1.6.RELEASE</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-core</artifactId>
+  <version>5.1.5.RELEASE</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-web</artifactId>
+  <version>5.1.5.RELEASE</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
+<dependency>
+  <groupId>org.springframework.security.oauth</groupId>
+  <artifactId>spring-security-oauth2</artifactId>
+  <version>2.3.6.RELEASE</version>
 </dependency>
 
 <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
@@ -41,6 +74,11 @@ API for "Inferno CP" app and "DWBot".
   <artifactId>spring-boot-starter-test</artifactId>
   <scope>test</scope>
 </dependency>
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-test</artifactId>
+  <scope>test</scope>
+</dependency>
 
 <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 <dependency>
@@ -53,5 +91,11 @@ API for "Inferno CP" app and "DWBot".
   <groupId>io.springfox</groupId>
   <artifactId>springfox-swagger2</artifactId>
   <version>2.9.2</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+<dependency>
+  <groupId>org.mindrot</groupId>
+  <artifactId>jbcrypt</artifactId>
+  <version>0.4</version>
 </dependency>
  ```
